@@ -1,0 +1,28 @@
+server:
+  port: 9191
+spring:
+  zipkin:
+    base-url: http://localhost:9411
+  application:
+    name: olx-gateway
+  cloud:
+    gateway:
+      routes:
+      - id: ADVERTISE-SERVICE
+        uri: lb://ADVERTISE-SERVICE
+        predicates:
+         - Path=/olx-advertises/**
+      - id: LOGIN-SERVICE
+        uri: lb://LOGIN-SERVICE
+        predicates:
+         - Path=/olx-login/**
+      - id: MASTERDATA-SERVICE
+        uri: lb://MASTERDATA-SERVICE
+        predicates:        - Path=/olx-masterdata/**           
+eureka:
+  instance:
+    prefer-ip-address: true
+    hostname: localhost
+  client:
+    register-with-eureka: true
+    fetch-registry: true 
